@@ -95,49 +95,6 @@ In a spare directory init a new npm project
 - Write a second route handler for GET `/goodbye` that send a goodbye message as JSON
 - Mount a middleware function _for just this route_ that prints "hello from a single route's middleware" to the console
 
-### Res.locals
-
-It is possible to generate or fetch some data in one middleware function and then "pass" it down to the next middleware functions and route handlers.  This is accomplished by adding key/value pairs to the `res.locals` object, note this is the same `res` that is passed as an argument to all middleware functions and route handlers.
-
-[res.locals docs](https://expressjs.com/en/4x/api.html#res.locals)
-> An object that contains response local variables scoped to the request, and therefore available only to the view(s) rendered during that request / response cycle (if any). Otherwise, this property is identical to app.locals.
-
-> This property is useful for exposing request-level information such as the request path name, authenticated user, user settings, and so on.
-
-```js
-const express = require('express');
-
-const app = express();
-
-app.use((req, res, next) => {
-  console.log('middleware called from the pokemonRouter');
-
-  res.locals.other = 'mewtwo';
-
-  next();
-});
-
-app.get('/', (req, res) => {
-  const pokemon = [
-    'bulbasaur',
-    'charmander',
-    'squirtle',
-    'pikachu',
-    res.locals.other 
-  ];
-
-  res.json({ pokemon });
-});
-```
-
-### Mini-Exercise Hackety Hack 2
-- Init yet another npm project in a spare directory
-- Install `express`, `nodemon`, and `morgan`
-- Write a simple `server.js` file with a `/foods` route that returns an array of your favorite foods as JSON
-- Write a middleware function that attaches an array of foods to `res.locals` and mount it to the app; take care to do this _before_ the `/foods` route handler
-- Return the combination of the foods from `res.locals` as well as the foods from the existing route
-
-
 ## Router
 
 From the _[Router docs](https://expressjs.com/en/4x/api.html#router)_
